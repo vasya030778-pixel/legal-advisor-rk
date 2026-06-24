@@ -38,7 +38,6 @@
     min-height: 100vh;
   }
 
-  /* Header */
   header {
     background: var(--green-dark);
     padding: 0 32px;
@@ -49,48 +48,37 @@
     box-shadow: 0 2px 8px rgba(0,102,51,0.25);
   }
 
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
 
   .logo-mark {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background: var(--yellow);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px; color: var(--green-dark);
     flex-shrink: 0;
   }
 
-  .header-titles h1 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: 0.01em;
-  }
+  .header-titles h1 { font-size: 16px; font-weight: 700; color: var(--white); }
+  .header-titles span { font-size: 11px; color: rgba(255,255,255,0.6); }
 
-  .header-titles span {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    font-weight: 400;
-  }
+  .header-right { display: flex; align-items: center; gap: 10px; }
 
   .header-badge {
-    background: var(--yellow);
-    color: var(--green-dark);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
+    background: var(--yellow); color: var(--green-dark);
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.04em;
   }
+
+  .free-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white; font-size: 10px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .free-dot { width: 6px; height: 6px; border-radius: 50%; background: #51cf66; }
 
   /* Layout */
   .layout {
@@ -99,35 +87,26 @@
     min-height: calc(100vh - 64px);
   }
 
-  /* Input panel */
   .panel-input {
     background: var(--white);
     border-right: 1px solid var(--gray-200);
     padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: flex; flex-direction: column; gap: 18px;
     overflow-y: auto;
   }
 
   .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 6px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 6px;
   }
 
   label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray-800);
-    margin-bottom: 6px;
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--gray-800); margin-bottom: 6px;
   }
 
-  select, textarea, input[type="text"] {
+  select, textarea {
     width: 100%;
     background: var(--gray-50);
     border: 1.5px solid var(--gray-200);
@@ -140,125 +119,66 @@
     transition: border-color 0.18s, box-shadow 0.18s;
   }
 
-  select:focus, textarea:focus, input[type="text"]:focus {
+  select:focus, textarea:focus {
     border-color: var(--green);
     box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
     background: var(--white);
   }
 
   select { cursor: pointer; }
-
   textarea { resize: vertical; }
 
   .field-wrap { position: relative; }
 
   .char-count {
-    position: absolute;
-    bottom: 9px;
-    right: 10px;
-    font-size: 10px;
-    color: var(--gray-400);
-    pointer-events: none;
+    position: absolute; bottom: 9px; right: 10px;
+    font-size: 10px; color: var(--gray-400); pointer-events: none;
   }
 
   .char-count.warn { color: #E65100; }
 
-  .api-hint {
-    font-size: 11px;
-    color: var(--gray-400);
-    margin-top: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .divider {
-    height: 1px;
-    background: var(--gray-100);
-  }
+  .divider { height: 1px; background: var(--gray-100); }
 
   .disclaimer {
     background: var(--yellow-light);
     border: 1.5px solid rgba(255,209,0,0.5);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 11px;
-    color: var(--gray-600);
-    line-height: 1.55;
+    border-radius: 8px; padding: 10px 12px;
+    font-size: 11px; color: var(--gray-600); line-height: 1.55;
   }
 
   .disclaimer strong { color: var(--green-dark); }
 
   .btn-submit {
-    background: var(--green);
-    color: var(--white);
-    border: none;
-    border-radius: 8px;
-    padding: 13px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.18s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    box-shadow: 0 2px 8px rgba(0,166,81,0.3);
+    background: var(--green); color: var(--white);
+    border: none; border-radius: 8px; padding: 13px 20px;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.18s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; box-shadow: 0 2px 8px rgba(0,166,81,0.3);
   }
 
   .btn-submit:hover { background: var(--green-mid); }
   .btn-submit:active { transform: scale(0.99); }
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .shortcut-hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--gray-400);
-  }
+  .shortcut-hint { text-align: center; font-size: 11px; color: var(--gray-400); }
 
-  /* Output panel */
-  .panel-output {
-    padding: 28px 32px;
-    overflow-y: auto;
-  }
+  .panel-output { padding: 28px 32px; overflow-y: auto; }
 
   /* Empty state */
   .state-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    color: var(--gray-400);
-    text-align: center;
-    gap: 16px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 60vh;
+    color: var(--gray-400); text-align: center; gap: 16px;
   }
 
   .state-empty .icon-wrap {
-    width: 72px;
-    height: 72px;
-    background: var(--green-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 72px; height: 72px; background: var(--green-light);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
   }
 
-  .state-empty .icon-wrap svg { color: var(--green); }
-
-  .state-empty h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--gray-600);
-  }
-
-  .state-empty p {
-    font-size: 13px;
-    max-width: 300px;
-    line-height: 1.6;
-  }
+  .state-empty h3 { font-size: 16px; font-weight: 600; color: var(--gray-600); }
+  .state-empty p { font-size: 13px; max-width: 300px; line-height: 1.6; }
 
   /* Skeleton */
   .skeleton-wrap { display: flex; flex-direction: column; gap: 12px; }
@@ -272,340 +192,142 @@
 
   @keyframes shimmer { to { background-position: -200% 0; } }
 
-  .skeleton-header {
-    height: 24px;
-    width: 55%;
-    margin-bottom: 8px;
-  }
-
-  /* Answer card */
+  /* Answer */
   .answer-card {
-    background: var(--white);
-    border-radius: 12px;
-    border: 1.5px solid var(--gray-200);
-    overflow: hidden;
+    background: var(--white); border-radius: 12px;
+    border: 1.5px solid var(--gray-200); overflow: hidden;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
 
   .answer-card-header {
-    background: var(--green-dark);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    background: var(--green-dark); padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
   }
 
-  .answer-card-header h2 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--white);
-    flex: 1;
-  }
+  .answer-card-header h2 { font-size: 15px; font-weight: 700; color: var(--white); flex: 1; }
 
   .answer-tag {
-    background: rgba(255,255,255,0.15);
-    color: var(--white);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    background: rgba(255,255,255,0.15); color: var(--white);
+    font-size: 10px; font-weight: 600; padding: 3px 8px;
+    border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase;
   }
 
-  .answer-tag.branch {
-    background: var(--yellow);
-    color: var(--green-dark);
-  }
+  .answer-tag.branch { background: var(--yellow); color: var(--green-dark); }
 
-  .answer-body {
-    padding: 20px;
-    line-height: 1.8;
-    color: var(--text);
-  }
+  .answer-body { padding: 20px; line-height: 1.8; color: var(--text); }
 
   .answer-body h2 {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--green-dark);
-    margin-top: 20px;
-    margin-bottom: 8px;
-    padding-bottom: 4px;
-    border-bottom: 2px solid var(--green-light);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 13px; font-weight: 700; color: var(--green-dark);
+    margin-top: 20px; margin-bottom: 8px;
+    padding-bottom: 4px; border-bottom: 2px solid var(--green-light);
   }
 
   .answer-body h2:first-child { margin-top: 0; }
 
   .answer-body h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--green-mid);
-    margin-top: 14px;
-    margin-bottom: 6px;
+    font-size: 13px; font-weight: 600; color: var(--green-mid);
+    margin-top: 14px; margin-bottom: 6px;
   }
 
   .answer-body p { margin-bottom: 10px; }
-
-  .answer-body ul, .answer-body ol {
-    padding-left: 20px;
-    margin-bottom: 10px;
-  }
-
+  .answer-body ul, .answer-body ol { padding-left: 20px; margin-bottom: 10px; }
   .answer-body li { margin-bottom: 5px; }
-
   .answer-body strong { font-weight: 600; }
 
   .norm-tag {
     display: inline;
     background: var(--green-light);
     border: 1px solid rgba(0,166,81,0.3);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 12px;
-    color: var(--green-dark);
-    font-weight: 600;
+    border-radius: 4px; padding: 1px 6px;
+    font-size: 12px; color: var(--green-dark); font-weight: 600;
   }
-
-  .conclusion-block {
-    margin: 16px 20px 20px;
-    background: var(--green-light);
-    border: 1.5px solid rgba(0,166,81,0.25);
-    border-left: 4px solid var(--green);
-    border-radius: 0 8px 8px 0;
-    padding: 14px 16px;
-  }
-
-  .conclusion-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 6px;
-  }
-
-  .conclusion-block .text { font-size: 13px; color: var(--green-dark); }
 
   /* Extra sections */
   .extra-sections {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;
   }
 
   .extra-card {
-    background: var(--white);
-    border-radius: 12px;
-    border: 1.5px solid var(--gray-200);
-    overflow: hidden;
+    background: var(--white); border-radius: 12px;
+    border: 1.5px solid var(--gray-200); overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 
-  .extra-card-header {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .extra-card-header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
   .extra-card-header.court { background: #E8F4FD; border-bottom: 2px solid #1976D2; }
   .extra-card-header.scholars { background: #F3E8FD; border-bottom: 2px solid #7B1FA2; }
 
   .extra-card-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
 
   .court .extra-card-icon { background: #1976D2; color: white; }
   .scholars .extra-card-icon { background: #7B1FA2; color: white; }
 
-  .extra-card-header h3 {
-    font-size: 13px;
-    font-weight: 700;
-    margin: 0;
-  }
-
+  .extra-card-header h3 { font-size: 13px; font-weight: 700; margin: 0; }
   .court .extra-card-header h3 { color: #1565C0; }
   .scholars .extra-card-header h3 { color: #6A1B9A; }
 
-  .extra-card-body {
-    padding: 14px 16px;
-    font-size: 13px;
-    line-height: 1.75;
-    color: var(--text);
-  }
-
+  .extra-card-body { padding: 14px 16px; font-size: 13px; line-height: 1.75; color: var(--text); }
   .extra-card-body p { margin-bottom: 8px; }
   .extra-card-body ul { padding-left: 18px; margin-bottom: 8px; }
   .extra-card-body li { margin-bottom: 6px; }
   .extra-card-body strong { font-weight: 600; }
 
   .case-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: #1976D2;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 2px 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    color: #1976D2; text-decoration: none;
+    font-size: 12px; font-weight: 500;
     border-bottom: 1px dashed #1976D2;
   }
 
   .case-link:hover { border-bottom-style: solid; }
 
   .scholar-quote {
-    background: #F3E8FD;
-    border-left: 3px solid #7B1FA2;
-    border-radius: 0 6px 6px 0;
-    padding: 8px 12px;
-    margin: 8px 0;
-    font-size: 12px;
-    color: #4A148C;
-    font-style: italic;
+    background: #F3E8FD; border-left: 3px solid #7B1FA2;
+    border-radius: 0 6px 6px 0; padding: 8px 12px; margin: 8px 0;
+    font-size: 12px; color: #4A148C; font-style: italic;
   }
 
-  @media (max-width: 820px) {
-    .extra-sections { grid-template-columns: 1fr; }
+  /* Conclusion */
+  .conclusion-block {
+    margin-top: 16px;
+    background: var(--green-light);
+    border: 1.5px solid rgba(0,166,81,0.25);
+    border-left: 4px solid var(--green);
+    border-radius: 0 8px 8px 0; padding: 14px 16px;
   }
+
+  .conclusion-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 6px;
+  }
+
+  .conclusion-block .text { font-size: 13px; color: var(--green-dark); }
 
   /* Error */
   .error-block {
     background: var(--error-bg);
     border: 1.5px solid rgba(211,47,47,0.3);
-    border-radius: 8px;
-    padding: 14px 16px;
-    color: var(--error);
-    font-size: 13px;
+    border-radius: 8px; padding: 14px 16px;
+    color: var(--error); font-size: 13px;
   }
 
   .error-block strong { display: block; margin-bottom: 4px; font-size: 14px; }
 
-  /* Footer strip */
   .panel-input-footer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 12px;
-    background: var(--green-dark);
-    border-radius: 8px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 12px; background: var(--green-dark);
+    border-radius: 8px; font-size: 11px; color: rgba(255,255,255,0.7);
   }
 
-  .panel-input-footer svg { flex-shrink: 0; }
-
-  /* Settings button */
-  .settings-btn {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
-    color: white;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.18s;
-  }
-  .settings-btn:hover { background: rgba(255,255,255,0.22); }
-
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-overlay.active { display: flex; }
-
-  .modal {
-    background: var(--white);
-    border-radius: 14px;
-    width: 380px;
-    max-width: calc(100vw - 32px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    overflow: hidden;
-  }
-
-  .modal-header {
-    background: var(--green-dark);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-header h3 { color: white; font-size: 15px; font-weight: 700; }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.7);
-    font-size: 16px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: color 0.15s;
-  }
-  .modal-close:hover { color: white; }
-
-  .modal-body { padding: 20px; }
-
-  .modal-footer {
-    padding: 0 20px 20px;
-  }
-
-  .btn-modal-save {
-    width: 100%;
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.18s;
-  }
-  .btn-modal-save:hover { background: var(--green-mid); }
-
-  /* Key status indicator in header */
-  .key-status {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-  }
-  .key-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ff6b6b;
-  }
-  .key-dot.active { background: #51cf66; }
-
-  /* Responsive */
   @media (max-width: 820px) {
     .layout { grid-template-columns: 1fr; }
     .panel-input { border-right: none; border-bottom: 1px solid var(--gray-200); }
     header { padding: 0 16px; }
     .panel-output { padding: 20px 16px; }
+    .extra-sections { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -619,42 +341,17 @@
       <span>Законодательство Республики Казахстан</span>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="header-badge">Halyk</div>
-    <div class="key-status">
-      <div class="key-dot" id="keyDot"></div>
-      <span id="keyLabel">API ключ</span>
+  <div class="header-right">
+    <div class="free-badge">
+      <div class="free-dot"></div>
+      Бесплатно · без регистрации
     </div>
-    <button class="settings-btn" onclick="openSettings()" title="Настройки API">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </button>
+    <div class="header-badge">Halyk</div>
   </div>
 </header>
 
-<!-- Settings modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeSettings()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h3>Настройки</h3>
-      <button class="modal-close" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="modal-body">
-      <label for="modalApiKey">API-ключ Anthropic</label>
-      <input type="password" id="modalApiKey" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
-      <p class="api-hint" style="margin-top:6px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Ключ хранится только в вашем браузере (localStorage) и никуда не передаётся
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-modal-save" onclick="saveApiKey()">Сохранить</button>
-    </div>
-  </div>
-</div>
-
 <div class="layout">
 
-  <!-- LEFT: Input -->
   <aside class="panel-input">
 
     <div>
@@ -707,16 +404,15 @@
 
     <div class="panel-input-footer">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Powered by Claude · Anthropic API
+      Работает на базе открытых ИИ-моделей · Бесплатно
     </div>
 
   </aside>
 
-  <!-- RIGHT: Output -->
   <main class="panel-output" id="output">
-    <div class="state-empty" id="emptyState">
+    <div class="state-empty">
       <div class="icon-wrap">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="var(--green)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <h3>Задайте правовой вопрос</h3>
       <p>Опишите ситуацию и получите структурированный анализ со ссылками на нормы законодательства РК</p>
@@ -731,7 +427,7 @@ const SYSTEM_PROMPT = `Ты — квалифицированный юрист, �
 Правила:
 1. Отвечать строго по законодательству Казахстана
 2. Указывать конкретные нормы: статья, часть, пункт, полное название акта
-3. Структурировать ответ строго по следующим разделам (все заголовки точно как указано):
+3. Структурировать ответ строго по следующим разделам:
    ## 1. Правовая квалификация ситуации
    ## 2. Применимые нормы законодательства РК
    ## 3. Права и обязанности сторон
@@ -740,100 +436,36 @@ const SYSTEM_PROMPT = `Ты — квалифицированный юрист, �
    ## 6. Судебная практика
    ## 7. Мнение правоведов
    ## Вывод
-4. В разделе "Судебная практика":
-   - Приводи реальные или типичные решения судов РК по аналогичным делам
-   - Указывай номер дела, суд, год (если известны: например, "Решение Алматинского городского суда № 2-1234/2022")
-   - Если точный номер неизвестен — описывай сложившуюся судебную практику по данной категории дел
-   - Указывай ссылки на базы судебных решений: sud.kz, adilet.zan.kz
-   - Формат: краткое описание позиции суда + исход дела
-5. В разделе "Мнение правоведов":
-   - Приводи позиции казахстанских учёных-юристов и практикующих адвокатов по данной категории споров
-   - Указывай ФИО, учёную степень или должность, источник (книга, статья, интервью, год)
-   - Если конкретные имена неизвестны — описывай преобладающую доктринальную позицию
-   - Можно указать дискуссионные моменты, по которым мнения расходятся
+4. В разделе "Судебная практика": приводи реальные или типичные решения судов РК, указывай номер дела/суд/год, ссылайся на sud.kz и adilet.zan.kz
+5. В разделе "Мнение правоведов": приводи позиции казахстанских учёных-юристов и практикующих адвокатов, указывай ФИО и источник
 6. Делать краткий вывод в конце
-7. Указывать на необходимость срочного обращения в органы (если применимо)
-8. Формулировать позицию чётко, без уклончивых ответов
-9. Отвечать на русском языке`;
-
-// API key via localStorage
-function getApiKey() { return localStorage.getItem('anthropic_api_key') || ''; }
-
-function openSettings() {
-  document.getElementById('modalApiKey').value = getApiKey();
-  document.getElementById('modalOverlay').classList.add('active');
-  document.getElementById('modalApiKey').focus();
-}
-
-function closeSettings() {
-  document.getElementById('modalOverlay').classList.remove('active');
-}
-
-function saveApiKey() {
-  const key = document.getElementById('modalApiKey').value.trim();
-  if (key) {
-    localStorage.setItem('anthropic_api_key', key);
-    updateKeyStatus(true);
-  } else {
-    localStorage.removeItem('anthropic_api_key');
-    updateKeyStatus(false);
-  }
-  closeSettings();
-}
-
-function updateKeyStatus(hasKey) {
-  const dot   = document.getElementById('keyDot');
-  const label = document.getElementById('keyLabel');
-  if (dot)   dot.className = 'key-dot' + (hasKey ? ' active' : '');
-  if (label) label.textContent = hasKey ? 'Ключ сохранён' : 'Ключ не задан';
-}
-
-// Save on Enter inside modal input
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('modalApiKey').addEventListener('keydown', e => {
-    if (e.key === 'Enter') saveApiKey();
-  });
-});
-
-// Close modal on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeSettings();
-});
-
-// On load: open settings if no key saved
-window.addEventListener('load', () => {
-  const hasKey = !!getApiKey();
-  updateKeyStatus(hasKey);
-  if (!hasKey) openSettings();
-});
+7. Отвечать на русском языке`;
 
 // Char counters
 const situation = document.getElementById('situation');
 const question  = document.getElementById('question');
-const sitCount  = document.getElementById('sitCount');
-const qCount    = document.getElementById('qCount');
 
 situation.addEventListener('input', () => {
   const n = situation.value.length;
-  sitCount.textContent = `${n} / 2000`;
-  sitCount.classList.toggle('warn', n > 1800);
+  document.getElementById('sitCount').textContent = `${n} / 2000`;
+  document.getElementById('sitCount').classList.toggle('warn', n > 1800);
 });
 
 question.addEventListener('input', () => {
   const n = question.value.length;
-  qCount.textContent = `${n} / 500`;
-  qCount.classList.toggle('warn', n > 430);
+  document.getElementById('qCount').textContent = `${n} / 500`;
+  document.getElementById('qCount').classList.toggle('warn', n > 430);
 });
 
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitQuery();
 });
 
+// Norm highlighting
 function highlightNorms(text) {
   const patterns = [
     /\b(ст(?:атья|атьи|атей|\.)?\s*\d+[\d\.\-]*(?:\s*ч(?:асть|\.)\s*\d+)?(?:\s*п(?:ункт|\.)\s*\d+)?)/gi,
     /\b(п(?:ункт|\.)\s*\d+(?:\s*ст(?:атьи|\.)?\s*\d+)?)/gi,
-    /\b(ч(?:асть|\.)\s*\d+\s*ст(?:атьи|\.)?\s*\d+)/gi,
     /\b((?:Гражданский|Трудовой|Уголовный|Земельный|Налоговый|Жилищный|Семейный|Административный)\s+кодекс(?:\s+Республики\s+Казахстан)?)/gi,
     /\b(КоАП|ГК РК|ТК РК|УК РК|НК РК|ЖК РК|СК РК)\b/g,
     /\b(Закон\s+(?:Республики\s+Казахстан\s+)?«[^»]+»)/gi,
@@ -858,16 +490,37 @@ function renderMarkdown(md) {
   return highlightNorms(`<p>${html}</p>`);
 }
 
+function renderCourtText(text) {
+  let html = renderMarkdown(text);
+  html = html.replace(/\b(sud\.kz)\b/g,'<a class="case-link" href="https://sud.kz" target="_blank" rel="noopener">⚖ sud.kz</a>');
+  html = html.replace(/\b(adilet\.zan\.kz)\b/g,'<a class="case-link" href="https://adilet.zan.kz" target="_blank" rel="noopener">📄 adilet.zan.kz</a>');
+  return html;
+}
+
+function renderScholarsText(text) {
+  let html = renderMarkdown(text);
+  html = html.replace(/«([^»]+)»/g,'<div class="scholar-quote">«$1»</div>');
+  return html;
+}
+
+function extractSection(src, pattern) {
+  const m = src.match(pattern);
+  if (!m) return '';
+  const start = src.indexOf(m[0]) + m[0].length;
+  const rest = src.slice(start);
+  const next = rest.match(/\n##\s/);
+  return (next ? rest.slice(0, next.index) : rest).trim();
+}
+
 function showSkeleton() {
-  const rows = [
-    {w:'55%',h:'20px'},{w:'88%',h:'14px'},{w:'72%',h:'14px'},
+  const rows = [{w:'55%',h:'20px'},{w:'88%',h:'14px'},{w:'72%',h:'14px'},
     {w:'48%',h:'20px'},{w:'82%',h:'14px'},{w:'65%',h:'14px'},{w:'50%',h:'14px'},
-    {w:'52%',h:'20px'},{w:'78%',h:'14px'},{w:'60%',h:'14px'},
-  ];
+    {w:'52%',h:'20px'},{w:'78%',h:'14px'}];
   const wrap = document.createElement('div');
   wrap.className = 'skeleton-wrap';
   const sh = document.createElement('div');
-  sh.className = 'skeleton skeleton-header';
+  sh.className = 'skeleton';
+  sh.style.cssText = 'width:50%;height:24px;margin-bottom:8px';
   wrap.appendChild(sh);
   rows.forEach(r => {
     const el = document.createElement('div');
@@ -875,9 +528,8 @@ function showSkeleton() {
     el.style.cssText = `width:${r.w};height:${r.h}`;
     wrap.appendChild(el);
   });
-  const out = document.getElementById('output');
-  out.innerHTML = '';
-  out.appendChild(wrap);
+  document.getElementById('output').innerHTML = '';
+  document.getElementById('output').appendChild(wrap);
 }
 
 function showError(msg) {
@@ -885,36 +537,82 @@ function showError(msg) {
     `<div class="error-block"><strong>Ошибка</strong>${msg}</div>`;
 }
 
-// Render court practice — auto-link sud.kz / adilet.zan.kz mentions
-function renderCourtText(text) {
-  let html = renderMarkdown(text);
-  // Make sud.kz and adilet.zan.kz clickable
-  html = html.replace(/\b(sud\.kz)\b/g,
-    '<a class="case-link" href="https://sud.kz" target="_blank" rel="noopener">⚖ sud.kz</a>');
-  html = html.replace(/\b(adilet\.zan\.kz)\b/g,
-    '<a class="case-link" href="https://adilet.zan.kz" target="_blank" rel="noopener">📄 adilet.zan.kz</a>');
-  return html;
-}
+function renderAnswer(text, branch) {
+  const courtText    = extractSection(text, /##\s*6\.\s*Судебная практика/i);
+  const scholarsText = extractSection(text, /##\s*7\.\s*Мнение правоведов/i);
+  const conclusionText = extractSection(text, /##\s*Вывод/i);
 
-// Render scholars — wrap quoted text in styled block
-function renderScholarsText(text) {
-  let html = renderMarkdown(text);
-  // Wrap «...» quotations in scholar-quote style
-  html = html.replace(/«([^»]+)»/g,
-    '<div class="scholar-quote">«$1»</div>');
-  return html;
+  let mainBody = text;
+  const cutAt = text.search(/##\s*6\.\s*Судебная практика|##\s*Вывод/i);
+  if (cutAt > 0) mainBody = text.slice(0, cutAt);
+
+  const out = document.getElementById('output');
+  out.innerHTML = '';
+
+  // Main card
+  const card = document.createElement('div');
+  card.className = 'answer-card';
+  card.innerHTML = `
+    <div class="answer-card-header">
+      <h2>Правовой анализ</h2>
+      <span class="answer-tag">РК</span>
+      ${branch ? `<span class="answer-tag branch">${branch}</span>` : ''}
+    </div>
+    <div class="answer-body">${renderMarkdown(mainBody.trim())}</div>
+  `;
+  out.appendChild(card);
+
+  // Extra: court + scholars
+  if (courtText || scholarsText) {
+    const grid = document.createElement('div');
+    grid.className = 'extra-sections';
+
+    if (courtText) {
+      grid.innerHTML += `
+        <div class="extra-card">
+          <div class="extra-card-header court">
+            <div class="extra-card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7L12 3 3 7"/><path d="M9 21V9m6 12V9"/></svg>
+            </div>
+            <h3>Судебная практика</h3>
+          </div>
+          <div class="extra-card-body">${renderCourtText(courtText)}</div>
+        </div>`;
+    }
+
+    if (scholarsText) {
+      grid.innerHTML += `
+        <div class="extra-card">
+          <div class="extra-card-header scholars">
+            <div class="extra-card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3>Мнение правоведов</h3>
+          </div>
+          <div class="extra-card-body">${renderScholarsText(scholarsText)}</div>
+        </div>`;
+    }
+
+    out.appendChild(grid);
+  }
+
+  // Conclusion
+  if (conclusionText) {
+    const cb = document.createElement('div');
+    cb.className = 'conclusion-block';
+    cb.innerHTML = `<div class="conclusion-label">Вывод</div><div class="text">${renderMarkdown(conclusionText)}</div>`;
+    out.appendChild(cb);
+  }
 }
 
 async function submitQuery() {
-  const apiKey = getApiKey();
   const branch = document.getElementById('branch').value;
   const sit    = situation.value.trim();
   const q      = question.value.trim();
   const btn    = document.getElementById('submitBtn');
 
-  if (!apiKey) { openSettings(); return; }
-  if (!sit)    { alert('Опишите правовую ситуацию'); return; }
-  if (!q)      { alert('Задайте правовой вопрос'); return; }
+  if (!sit) { alert('Опишите правовую ситуацию'); return; }
+  if (!q)   { alert('Задайте правовой вопрос'); return; }
 
   btn.disabled = true;
   showSkeleton();
@@ -923,123 +621,36 @@ async function submitQuery() {
     `Ситуация:\n${sit}\n\nВопрос:\n${q}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    // Pollinations.ai — бесплатный API, без ключей
+    const res = await fetch('https://text.pollinations.ai/openai', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'openai-large',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: userMessage }
+        ],
         max_tokens: 2000,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userMessage }]
+        seed: Math.floor(Math.random() * 9999)
       })
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      showError(`Ошибка API: ${err?.error?.message || 'HTTP ' + res.status}`);
+      const err = await res.text();
+      showError(`Сервис временно недоступен. Попробуйте ещё раз.<br><small>${err.slice(0,200)}</small>`);
       return;
     }
 
     const data = await res.json();
-    const text = data.content?.[0]?.text || '';
+    const text = data.choices?.[0]?.message?.content || '';
 
-    // Parse sections
-    function extractSection(src, pattern) {
-      const m = src.match(pattern);
-      if (!m) return '';
-      const start = src.indexOf(m[0]) + m[0].length;
-      const rest = src.slice(start);
-      const nextSection = rest.match(/\n##\s/);
-      return (nextSection ? rest.slice(0, nextSection.index) : rest).trim();
-    }
+    if (!text) { showError('Пустой ответ от сервиса. Попробуйте ещё раз.'); return; }
 
-    const courtText    = extractSection(text, /##\s*6\.\s*Судебная практика/i);
-    const scholarsText = extractSection(text, /##\s*7\.\s*Мнение правоведов/i);
-    const conclusionText = extractSection(text, /##\s*Вывод/i);
-
-    // Main body = everything before section 6 (or Вывод if 6 absent)
-    let mainBody = text;
-    const cutAt = text.search(/##\s*6\.\s*Судебная практика|##\s*Вывод/i);
-    if (cutAt > 0) mainBody = text.slice(0, cutAt);
-
-    const out = document.getElementById('output');
-    out.innerHTML = '';
-
-    // Main analysis card
-    const card = document.createElement('div');
-    card.className = 'answer-card';
-
-    const hdr = document.createElement('div');
-    hdr.className = 'answer-card-header';
-    hdr.innerHTML = `
-      <h2>Правовой анализ</h2>
-      <span class="answer-tag">РК</span>
-      ${branch ? `<span class="answer-tag branch">${branch}</span>` : ''}
-    `;
-    card.appendChild(hdr);
-
-    const body = document.createElement('div');
-    body.className = 'answer-body';
-    body.innerHTML = renderMarkdown(mainBody.trim());
-    card.appendChild(body);
-    out.appendChild(card);
-
-    // Extra sections: court + scholars side by side
-    if (courtText || scholarsText) {
-      const grid = document.createElement('div');
-      grid.className = 'extra-sections';
-
-      if (courtText) {
-        const courtCard = document.createElement('div');
-        courtCard.className = 'extra-card';
-        courtCard.innerHTML = `
-          <div class="extra-card-header court">
-            <div class="extra-card-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7L12 3 3 7"/><path d="M9 21V9m6 12V9"/></svg>
-            </div>
-            <h3>Судебная практика</h3>
-          </div>
-          <div class="extra-card-body">${renderCourtText(courtText)}</div>
-        `;
-        grid.appendChild(courtCard);
-      }
-
-      if (scholarsText) {
-        const schCard = document.createElement('div');
-        schCard.className = 'extra-card';
-        schCard.innerHTML = `
-          <div class="extra-card-header scholars">
-            <div class="extra-card-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            </div>
-            <h3>Мнение правоведов</h3>
-          </div>
-          <div class="extra-card-body">${renderScholarsText(scholarsText)}</div>
-        `;
-        grid.appendChild(schCard);
-      }
-
-      out.appendChild(grid);
-    }
-
-    // Conclusion
-    if (conclusionText) {
-      const cb = document.createElement('div');
-      cb.className = 'conclusion-block';
-      cb.innerHTML = `
-        <div class="conclusion-label">Вывод</div>
-        <div class="text">${renderMarkdown(conclusionText)}</div>
-      `;
-      out.appendChild(cb);
-    }
+    renderAnswer(text, branch);
 
   } catch (e) {
-    showError(`Не удалось выполнить запрос. Проверьте подключение и API-ключ.<br><small style="opacity:.6">${e.message}</small>`);
+    showError(`Не удалось выполнить запрос. Проверьте подключение к интернету.<br><small>${e.message}</small>`);
   } finally {
     btn.disabled = false;
   }
