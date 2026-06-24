@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правовой советник — Законодательство РК</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96B;
+    --ink: #0F1923;
+    --ink-soft: #1E2D3D;
+    --parchment: #F7F5F0;
+    --muted: #6B7A8D;
+    --success: #2A6B4A;
+    --error: #8B2020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    padding: 20px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+  }
+
+  header span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 65px);
+  }
+
+  .panel-input {
+    background: var(--ink-soft);
+    border-right: 1px solid rgba(201,168,76,0.15);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel-output {
+    padding: 28px 32px;
+    overflow-y: auto;
+  }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  select, textarea, input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    color: var(--parchment);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  select:focus, textarea:focus {
+    border-color: var(--gold);
+  }
+
+  select option {
+    background: var(--ink-soft);
+    color: var(--parchment);
+  }
+
+  .field-wrap { position: relative; }
+
+  textarea { resize: vertical; }
+
+  .char-count {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 10px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .char-count.warn { color: var(--gold); }
+
+  .api-key-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  .disclaimer {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .disclaimer strong { color: var(--gold); }
+
+  .btn-submit {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-submit:hover { background: var(--gold-light); }
+  .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* Output states */
+  .state-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    color: var(--muted);
+    text-align: center;
+    gap: 12px;
+  }
+
+  .state-empty .glyph {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+  }
+
+  .state-empty p { font-size: 13px; max-width: 280px; }
+
+  /* Skeleton loader */
+  .skeleton-wrap { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+
+  .skeleton {
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  /* Answer */
+  .answer-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .answer-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold-light);
+  }
+
+  .answer-badge {
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .answer-body { line-height: 1.8; }
+
+  .answer-body h2, .answer-body h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .answer-body p { margin-bottom: 10px; }
+
+  .answer-body ul, .answer-body ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  .answer-body li { margin-bottom: 4px; }
+
+  .answer-body strong { color: var(--parchment); font-weight: 600; }
+
+  .norm-tag {
+    display: inline;
+    background: rgba(232,201,107,0.12);
+    border: 1px solid rgba(232,201,107,0.3);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 12px;
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .conclusion-block {
+    background: rgba(42,107,74,0.12);
+    border: 1px solid rgba(42,107,74,0.3);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-top: 18px;
+  }
+
+  .conclusion-block .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5db38b;
+    margin-bottom: 6px;
+  }
+
+  /* Error */
+  .error-block {
+    background: rgba(139,32,32,0.12);
+    border: 1px solid rgba(139,32,32,0.4);
+    border-radius: 6px;
+    padding: 14px 16px;
+    color: #e07070;
+    font-size: 13px;
+  }
+
+  .error-block strong { display: block; margin-bottom: 4px; }
+
+  /* Responsive */
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .panel-input { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>§ Правовой советник</h1>
+  <span>Законодательство Республики Казахстан</span>
+</header>
+
+<div class="layout">
+  <!-- LEFT: Input -->
+  <aside class="panel-input">
+
+    <div>
+      <label for="apiKey">API-ключ Anthropic</label>
+      <input type="text" id="apiKey" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+      <p class="api-key-hint">Ключ не сохраняется и не передаётся третьим лицам</p>
+    </div>
+
+    <div>
+      <label for="branch">Отрасль права</label>
+      <select id="branch">
+        <option value="">— Не указана —</option>
+        <option>Гражданское право</option>
+        <option>Трудовое право</option>
+        <option>Семейное право</option>
+        <option>Уголовное право</option>
+        <option>Административное право</option>
+        <option>Налоговое право</option>
+        <option>Жилищное право</option>
+        <option>Земельное право</option>
+        <option>Корпоративное право</option>
+        <option>Защита прав потребителей</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="situation">Описание ситуации <span style="color:var(--muted);font-size:10px;text-transform:none;letter-spacing:0">(обязательно)</span></label>
+      <div class="field-wrap">
+        <textarea id="situation" rows="7" maxlength="2000"
+          placeholder="Опишите правовую ситуацию подробно: кто участники, что произошло, какие документы есть…"></textarea>
+        <span class="char-count" id="sitCount">0 / 2000</span>
+      </div>
+    </div>
+
+    <div>
+      <label for="question">Правовой вопрос <span style="color:var(--muted);font-size:10px;text-transform:none;letter-spacing:0">(обязательно)</span></label>
+      <div class="field-wrap">
+        <textarea id="question" rows="3" maxlength="500"
+          placeholder="Какой конкретный вопрос вы хотите прояснить?"></textarea>
+        <span class="char-count" id="qCount">0 / 500</span>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Важно:</strong> Данный инструмент использует ИИ для информационных целей и не заменяет
+      консультацию квалифицированного юриста. Ссылки на нормы носят ориентировочный характер —
+      всегда проверяйте актуальную редакцию на портале <strong>adilet.zan.kz</strong>.
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="submitQuery()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      Получить анализ
+    </button>
+
+  </aside>
+
+  <!-- RIGHT: Output -->
+  <main class="panel-output" id="output">
+    <div class="state-empty" id="emptyState">
+      <div class="glyph">§</div>
+      <p>Опишите ситуацию и задайте вопрос — получите структурированный правовой анализ со ссылками на нормы законодательства РК</p>
+      <p style="font-size:11px;color:rgba(107,122,141,0.6)">Ctrl + Enter для отправки</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `Ты — квалифицированный юрист, специализирующийся на законодательстве Республики Казахстан. Твоя задача — дать чёткий, структурированный правовой анализ ситуации.
+
+Правила:
+1. Отвечать строго по законодательству Казахстана
+2. Указывать конкретные нормы: статья, часть, пункт, полное название акта
+3. Структурировать ответ по разделам:
+   ## 1. Правовая квалификация ситуации
+   ## 2. Применимые нормы законодательства РК
+   ## 3. Права и обязанности сторон
+   ## 4. Рекомендуемые действия
+   ## 5. Ответственность за нарушение (если применимо)
+   ## Вывод
+4. Делать краткий вывод в конце
+5. Указывать на необходимость срочного обращения в органы (если применимо)
+6. Формулировать позицию чётко, без уклончивых ответов
+7. Отвечать на русском языке`;
+
+// Char counters
+const situation = document.getElementById('situation');
+const question = document.getElementById('question');
+const sitCount = document.getElementById('sitCount');
+const qCount = document.getElementById('qCount');
+
+situation.addEventListener('input', () => {
+  const n = situation.value.length;
+  sitCount.textContent = `${n} / 2000`;
+  sitCount.classList.toggle('warn', n > 1800);
+});
+
+question.addEventListener('input', () => {
+  const n = question.value.length;
+  qCount.textContent = `${n} / 500`;
+  qCount.classList.toggle('warn', n > 430);
+});
+
+// Ctrl+Enter shortcut
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitQuery();
+});
+
+// Norm highlighting
+function highlightNorms(text) {
+  // Match common patterns: "статья X", "ст. X", "п. X", "ч. X", "КоАП", "ГК РК", etc.
+  const patterns = [
+    /\b(ст(?:атья|атей|\.)?\s*\d+[\d\.\-]*(?:\s*(?:ч(?:асть|асти|\.)?\s*\d+)?)?(?:\s*(?:п(?:ункт|\.)\s*\d+)?)?)/gi,
+    /\b(п(?:ункт|\.)\s*\d+(?:\s*ст(?:атьи|\.)?\s*\d+)?)/gi,
+    /\b(ч(?:асть|\.)\s*\d+\s*ст(?:атьи|\.)?\s*\d+)/gi,
+    /\b((?:Гражданский|Трудовой|Уголовный|Земельный|Налоговый|Жилищный|Семейный|Административный)\s+кодекс\s+(?:Республики\s+Казахстан)?)/gi,
+    /\b(КоАП|ГК РК|ТК РК|УК РК|НК РК|ЖК РК|СК РК)/g,
+    /\b(Закон\s+(?:Республики\s+Казахстан\s+)?(?:«[^»]+»|"[^"]+"))/gi,
+    /\b(РК\s+(?:от\s+\d+\s+\w+\s+\d{4}\s+года)?)/g,
+  ];
+
+  let result = text;
+  patterns.forEach(p => {
+    result = result.replace(p, match => `<span class="norm-tag">${match}</span>`);
+  });
+  return result;
+}
+
+// Markdown → HTML (minimal)
+function renderMarkdown(md) {
+  let html = md
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, s => `<ul>${s}</ul>`)
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    .replace(/\n{2,}/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+
+  html = `<p>${html}</p>`;
+  return highlightNorms(html);
+}
+
+// Skeleton rows
+function showSkeleton() {
+  const rows = [
+    { w: '60%', h: '18px' }, { w: '90%', h: '14px' }, { w: '75%', h: '14px' },
+    { w: '45%', h: '18px' }, { w: '85%', h: '14px' }, { w: '70%', h: '14px' }, { w: '55%', h: '14px' },
+    { w: '50%', h: '18px' }, { w: '80%', h: '14px' },
+  ];
+  const wrap = document.createElement('div');
+  wrap.className = 'skeleton-wrap';
+  rows.forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'skeleton';
+    el.style.width = r.w;
+    el.style.height = r.h;
+    wrap.appendChild(el);
+  });
+  const out = document.getElementById('output');
+  out.innerHTML = '';
+  out.appendChild(wrap);
+}
+
+function showError(msg) {
+  document.getElementById('output').innerHTML =
+    `<div class="error-block"><strong>Ошибка</strong>${msg}</div>`;
+}
+
+async function submitQuery() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const branch = document.getElementById('branch').value;
+  const sit = situation.value.trim();
+  const q = question.value.trim();
+  const btn = document.getElementById('submitBtn');
+
+  if (!apiKey) { alert('Введите API-ключ Anthropic'); return; }
+  if (!sit) { alert('Опишите правовую ситуацию'); return; }
+  if (!q) { alert('Задайте правовой вопрос'); return; }
+
+  btn.disabled = true;
+  showSkeleton();
+
+  const userMessage = [
+    branch ? `Отрасль права: ${branch}\n` : '',
+    `Ситуация:\n${sit}\n\nВопрос:\n${q}`
+  ].join('');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: userMessage }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      const msg = err?.error?.message || `HTTP ${res.status}`;
+      showError(`Ошибка API: ${msg}`);
+      return;
+    }
+
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '';
+
+    // Check for conclusion block
+    const hasConclusion = /##\s*Вывод/i.test(text);
+    let mainBody = text;
+    let conclusionText = '';
+
+    if (hasConclusion) {
+      const parts = text.split(/##\s*Вывод/i);
+      mainBody = parts[0];
+      conclusionText = parts[1]?.trim() || '';
+    }
+
+    const out = document.getElementById('output');
+    out.innerHTML = '';
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = 'answer-header';
+    hdr.innerHTML = `
+      <h2>Правовой анализ</h2>
+      <span class="answer-badge">РК</span>
+      ${branch ? `<span class="answer-badge" style="border-color:rgba(107,122,141,0.4);color:var(--muted)">${branch}</span>` : ''}
+    `;
+    out.appendChild(hdr);
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'answer-body';
+    body.innerHTML = renderMarkdown(mainBody.trim());
+    out.appendChild(body);
+
+    // Conclusion
+    if (conclusionText) {
+      const cb = document.createElement('div');
+      cb.className = 'conclusion-block';
+      cb.innerHTML = `<div class="label">Вывод</div><div>${renderMarkdown(conclusionText)}</div>`;
+      out.appendChild(cb);
+    }
+
+  } catch (e) {
+    showError(`Не удалось выполнить запрос. Проверьте подключение к интернету и правильность API-ключа.<br><small style="opacity:.6">${e.message}</small>`);
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
