@@ -605,12 +605,19 @@ function renderAnswer(text, branch) {
   }
 }
 
+function fetchWithTimeout(url, options = {}, timeoutMs = 20000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  return fetch(url, { ...options, signal: ctrl.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 async function callAI(userMessage) {
   const seed = Math.floor(Math.random() * 99999);
 
-  // Попытка 1: Pollinations POST
+  // Попытка 1: Pollinations POST /
   try {
-    const res = await fetch('https://text.pollinations.ai/', {
+    const res = await fetchWithTimeout('https://text.pollinations.ai/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -618,19 +625,18 @@ async function callAI(userMessage) {
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user',   content: userMessage }
         ],
-        model: 'openai-large',
-        seed
+        model: 'openai-large', seed
       })
-    });
+    }, 20000);
     if (res.ok) {
       const text = await res.text();
       if (text && text.trim().length > 50) return text;
     }
-  } catch(e) {}
+  } catch(e) { console.warn('Попытка 1 failed:', e.message); }
 
-  // Попытка 2: Pollinations OpenAI-совместимый эндпоинт
+  // Попытка 2: Pollinations POST /openai
   try {
-    const res = await fetch('https://text.pollinations.ai/openai', {
+    const res = await fetchWithTimeout('https://text.pollinations.ai/openai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -641,26 +647,26 @@ async function callAI(userMessage) {
         ],
         seed
       })
-    });
+    }, 20000);
     if (res.ok) {
       const data = await res.json();
       const text = data.choices?.[0]?.message?.content || '';
       if (text.trim().length > 50) return text;
     }
-  } catch(e) {}
+  } catch(e) { console.warn('Попытка 2 failed:', e.message); }
 
   // Попытка 3: GET с коротким промптом
   try {
-    const shortPrompt = `Ты казахстанский юрист. Дай правовой анализ по законодательству РК со структурой: 1.Квалификация 2.Нормы 3.Права 4.Действия 5.Ответственность 6.Судебная практика 7.Мнение правоведов Вывод. Отвечай на русском.\n\n${userMessage}`;
-    const url = `https://text.pollinations.ai/${encodeURIComponent(shortPrompt)}?model=openai-large&seed=${seed}`;
-    const res = await fetch(url);
+    const shortPrompt = `Ты казахстанский юрист РК. Анализ по разделам: 1.Квалификация 2.Нормы РК 3.Права сторон 4.Действия 5.Ответственность 6.Судебная практика 7.Мнение правоведов Вывод. На русском.\n\n${userMessage}`;
+    const url = `https://text.pollinations.ai/${encodeURIComponent(shortPrompt)}?model=openai&seed=${seed}`;
+    const res = await fetchWithTimeout(url, {}, 25000);
     if (res.ok) {
       const text = await res.text();
       if (text && text.trim().length > 50) return text;
     }
-  } catch(e) {}
+  } catch(e) { console.warn('Попытка 3 failed:', e.message); }
 
-  showError('Сервис временно недоступен. Пожалуйста, попробуйте через несколько минут.');
+  showError('Сервис ИИ временно недоступен. Пожалуйста, попробуйте через несколько минут.');
   return null;
 }
 
