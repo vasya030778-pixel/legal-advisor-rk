@@ -698,99 +698,34 @@ async function fetchSOZD(dateFrom, dateTo) {
   })).filter(i => i.title);
 }
 
-// ── КАЗАХСТАН: Адилет — несколько вариантов URL поиска ──
-function parseAdiletHtml(text) {
-  const doc = new DOMParser().parseFromString(text, 'text/html');
-  const results = [];
+// ── КАЗАХСТАН: Google News RSS с казахстанскими запросами ──
+// Сайты КЗ (Адилет, Парламент) рендерятся JS и недоступны через CORS-прокси.
+// Google News RSS надёжно работает и содержит новости о принятых законах.
+async function fetchGoogleNewsRSS(query, sourceName, type, dateFrom, dateTo) {
+  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ru&gl=KZ&ceid=KZ:ru`;
+  const text = await proxyFetch(url);
+  const xml = new DOMParser().parseFromString(text, 'application/xml');
+  if (xml.querySelector('parsererror')) throw new Error('XML error');
 
-  // Вариант 1: строки таблицы результатов
-  doc.querySelectorAll('table tr, .search-result tr').forEach(row => {
-    const cells = row.querySelectorAll('td');
-    if (cells.length < 2) return;
-    const a = row.querySelector('a[href]');
-    if (!a) return;
-    const title = a.textContent.trim();
-    if (title.length < 5) return;
-    const href = a.getAttribute('href');
-    const link = href.startsWith('http') ? href : 'https://adilet.zan.kz' + href;
-    const dateText = Array.from(cells).map(c => c.textContent.trim())
-      .find(t => /\d{2}\.\d{2}\.\d{4}/.test(t)) || '';
-    const dateMatch = dateText.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-    const pubDate = dateMatch
-      ? new Date(`${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}`)
-      : null;
-    results.push({ title, link, desc: '', pubDate, source: 'Адилет (офиц.)', official: true, type: 'adopted' });
-  });
+  const all = Array.from(xml.querySelectorAll('item')).map(item => {
+    const pubDate = parseDate(item.querySelector('pubDate')?.textContent || '');
+    return {
+      title: stripHtml(item.querySelector('title')?.textContent || ''),
+      link:  item.querySelector('link')?.textContent?.trim() || '',
+      desc:  truncate(stripHtml(item.querySelector('description')?.textContent || ''), 200),
+      pubDate,
+      source: sourceName,
+      official: false,
+      type
+    };
+  }).filter(i => i.title);
 
-  // Вариант 2: любые ссылки на документы
-  if (!results.length) {
-    doc.querySelectorAll('a[href*="/rus/docs/"], a[href*="/kaz/docs/"]').forEach(a => {
-      const title = a.textContent.trim();
-      if (title.length < 5) return;
-      const href = a.getAttribute('href');
-      const link = href.startsWith('http') ? href : 'https://adilet.zan.kz' + href;
-      // ищем дату рядом
-      const parent = a.closest('li, tr, div, p') || a.parentElement;
-      const txt = parent?.textContent || '';
-      const m = txt.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-      const pubDate = m ? new Date(`${m[3]}-${m[2]}-${m[1]}`) : null;
-      results.push({ title, link, desc: '', pubDate, source: 'Адилет (офиц.)', official: true, type: 'adopted' });
-    });
-  }
-  return results;
-}
+  // Фильтр по дате — если ничего нет в диапазоне, берём всё доступное с пометкой
+  const inPeriod = all.filter(i => !i.pubDate || inRange(i.pubDate, dateFrom, dateTo));
+  if (inPeriod.length) return inPeriod;
 
-async function fetchAdilet(dateFrom, dateTo) {
-  // Адилет принимает даты в формате DD.MM.YYYY
-  const from = fmtApi(dateFrom).split('-').reverse().join('.');
-  const to   = fmtApi(dateTo).split('-').reverse().join('.');
-
-  // Пробуем разные варианты URL
-  const urls = [
-    `https://adilet.zan.kz/rus/search/docs/?from_date=${from}&to_date=${to}`,
-    `https://adilet.zan.kz/rus/search/docs/?dateFrom=${from}&dateTo=${to}`,
-    `https://adilet.zan.kz/rus/search/docs/?date_from=${from}&date_to=${to}&act_type=all`,
-  ];
-
-  for (const url of urls) {
-    try {
-      const text = await proxyFetch(url);
-      const items = parseAdiletHtml(text);
-      if (items.length) return items.slice(0, 60);
-    } catch(e) { /* пробуем следующий */ }
-  }
-  return [];
-}
-
-// ── КАЗАХСТАН: Parlam.kz — законопроекты ──
-async function fetchParlam(dateFrom, dateTo) {
-  const from = fmtApi(dateFrom).split('-').reverse().join('.');
-  const to   = fmtApi(dateTo).split('-').reverse().join('.');
-  const urls = [
-    `https://www.parlam.kz/ru/mazhilis/zakonodatelstvo?dateFrom=${from}&dateTo=${to}`,
-    `https://www.parlam.kz/ru/senate/news?dateFrom=${from}&dateTo=${to}`,
-  ];
-  for (const url of urls) {
-    try {
-      const text = await proxyFetch(url);
-      const doc = new DOMParser().parseFromString(text, 'text/html');
-      const items = [];
-      doc.querySelectorAll('a[href]').forEach(a => {
-        const title = a.textContent.trim();
-        if (title.length < 10) return;
-        const href = a.getAttribute('href');
-        if (!href || href === '#') return;
-        const link = href.startsWith('http') ? href : 'https://www.parlam.kz' + href;
-        const parent = a.closest('li, tr, div.item, article') || a.parentElement;
-        const txt = parent?.textContent || '';
-        const m = txt.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-        const pubDate = m ? new Date(`${m[3]}-${m[2]}-${m[1]}`) : null;
-        items.push({ title, link, desc: '', pubDate, source: 'Парламент КЗ (офиц.)', official: true, type: 'discuss' });
-      });
-      if (items.length) return items.slice(0, 40);
-    } catch(e) { /* следующий */ }
-  }
-  return [];
+  // Возвращаем ближайшие доступные, помечаем что вне диапазона
+  return all.slice(0, 20).map(i => ({ ...i, outOfRange: true }));
 }
 
 // ── ОБЩИЙ: RSS-лента через прокси (для свежих данных) ──
@@ -858,6 +793,7 @@ function renderItem(item) {
         ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>` : item.title}
       </div>
       ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+      ${item.outOfRange ? `<div style="font-size:11px;color:#999;margin-top:4px;">⚠️ Ближайший доступный результат — точная дата может не совпадать с периодом</div>` : ''}
     </div>`;
 }
 
@@ -907,20 +843,25 @@ async function search() {
 
   if (country === 'kz' || country === 'all') {
     tasks.push(
-      fetchAdilet(dateFrom, dateTo)
+      fetchGoogleNewsRSS(
+        'закон принят указ постановление Казахстан Акорда подписан',
+        'Google Новости — законы КЗ', 'adopted', dateFrom, dateTo)
         .then(r => allItems.push(...r))
-        .catch(() => errors.push('Адилет')),
-      fetchParlam(dateFrom, dateTo)
+        .catch(() => errors.push('Google Новости КЗ (законы)')),
+      fetchGoogleNewsRSS(
+        'законопроект Мажилис Сенат Казахстан парламент рассмотрение чтение',
+        'Google Новости — Парламент КЗ', 'discuss', dateFrom, dateTo)
         .then(r => allItems.push(...r))
-        .catch(() => errors.push('Парламент КЗ')),
+        .catch(() => errors.push('Google Новости КЗ (парламент)')),
+      fetchGoogleNewsRSS(
+        'Казахстан законодательство право нормативный акт',
+        'Google Новости — право КЗ', 'both', dateFrom, dateTo)
+        .then(r => allItems.push(...r))
+        .catch(() => errors.push('Google Новости КЗ (право)')),
       fetchRSS('https://www.zakon.kz/rss/',
         'Zakon.kz', false, 'both', dateFrom, dateTo)
         .then(r => allItems.push(...r))
-        .catch(() => errors.push('Zakon.kz')),
-      fetchRSS('https://www.akorda.kz/ru/rss',
-        'Акорда (офиц.)', true, 'adopted', dateFrom, dateTo)
-        .then(r => allItems.push(...r))
-        .catch(() => errors.push('Акорда'))
+        .catch(() => errors.push('Zakon.kz'))
     );
   }
 
