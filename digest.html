@@ -806,15 +806,16 @@ function formatDateRu(dateStr) {
 }
 
 function renderItem(item, type) {
-  const timeStr = item.pubDate
-    ? item.pubDate.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' })
+  const dateStr = item.pubDate
+    ? item.pubDate.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric' })
+      + ' ' + item.pubDate.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' })
     : '';
 
   return `
     <div class="item ${type}">
       <div class="item-source">
         <div class="source-dot"></div>
-        ${item.source}${timeStr ? ' · ' + timeStr : ''}
+        ${item.source}${dateStr ? ' · ' + dateStr : ''}
       </div>
       <div class="item-title">
         ${item.link
