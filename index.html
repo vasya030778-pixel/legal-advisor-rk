@@ -605,6 +605,65 @@ function renderAnswer(text, branch) {
   }
 }
 
+async function callAI(userMessage) {
+  const seed = Math.floor(Math.random() * 99999);
+
+  // Попытка 1: Pollinations POST
+  try {
+    const res = await fetch('https://text.pollinations.ai/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: userMessage }
+        ],
+        model: 'openai-large',
+        seed
+      })
+    });
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim().length > 50) return text;
+    }
+  } catch(e) {}
+
+  // Попытка 2: Pollinations OpenAI-совместимый эндпоинт
+  try {
+    const res = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'openai-large',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: userMessage }
+        ],
+        seed
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const text = data.choices?.[0]?.message?.content || '';
+      if (text.trim().length > 50) return text;
+    }
+  } catch(e) {}
+
+  // Попытка 3: GET с коротким промптом
+  try {
+    const shortPrompt = `Ты казахстанский юрист. Дай правовой анализ по законодательству РК со структурой: 1.Квалификация 2.Нормы 3.Права 4.Действия 5.Ответственность 6.Судебная практика 7.Мнение правоведов Вывод. Отвечай на русском.\n\n${userMessage}`;
+    const url = `https://text.pollinations.ai/${encodeURIComponent(shortPrompt)}?model=openai-large&seed=${seed}`;
+    const res = await fetch(url);
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim().length > 50) return text;
+    }
+  } catch(e) {}
+
+  showError('Сервис временно недоступен. Пожалуйста, попробуйте через несколько минут.');
+  return null;
+}
+
 async function submitQuery() {
   const branch = document.getElementById('branch').value;
   const sit    = situation.value.trim();
@@ -621,27 +680,8 @@ async function submitQuery() {
     `Ситуация:\n${sit}\n\nВопрос:\n${q}`;
 
   try {
-    // Pollinations.ai GET API — бесплатно, без ключей, без CORS-проблем
-    const seed = Math.floor(Math.random() * 99999);
-    const url = `https://text.pollinations.ai/${encodeURIComponent(userMessage)}`
-      + `?model=openai-large`
-      + `&system=${encodeURIComponent(SYSTEM_PROMPT)}`
-      + `&seed=${seed}`;
-
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      showError(`Сервис временно недоступен (${res.status}). Попробуйте ещё раз через минуту.`);
-      return;
-    }
-
-    const text = await res.text();
-
-    if (!text || text.trim().length < 50) {
-      showError('Пустой ответ от сервиса. Попробуйте ещё раз.');
-      return;
-    }
-
+    const text = await callAI(userMessage);
+    if (!text) return;
     renderAnswer(text, branch);
 
   } catch (e) {
