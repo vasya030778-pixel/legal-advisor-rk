@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дайджест законодательства</title>
+  <style>
+    :root {
+      --green: #00A651;
+      --green-dark: #007A3D;
+      --green-deep: #005C2E;
+      --green-light: #E6F6EE;
+      --green-mid: #C0E8D0;
+      --white: #FFFFFF;
+      --gray-light: #F5F7F6;
+      --gray: #8A9B91;
+      --text: #1A2E22;
+      --text-soft: #4A6455;
+      --adopted-bg: #E8F7EF;
+      --adopted-border: #00A651;
+      --discuss-bg: #FFF9E6;
+      --discuss-border: #F0A500;
+      --discuss-icon: #F0A500;
+      --shadow: 0 2px 12px rgba(0,166,81,0.10);
+      --shadow-lg: 0 8px 32px rgba(0,166,81,0.13);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--gray-light);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 50%, var(--green) 100%);
+      color: var(--white);
+      padding: 0;
+      box-shadow: 0 4px 20px rgba(0,92,46,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .logo-text {
+      line-height: 1.1;
+    }
+
+    .logo-text strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-text span {
+      font-size: 12px;
+      opacity: 0.75;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.25);
+      margin: 0 4px;
+    }
+
+    .header-title {
+      font-size: 15px;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    /* SEARCH BAR */
+    .search-section {
+      background: var(--white);
+      border-bottom: 1px solid var(--green-mid);
+      padding: 20px 24px;
+    }
+
+    .search-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .search-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .date-input {
+      padding: 10px 14px;
+      border: 2px solid var(--green-mid);
+      border-radius: 8px;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .date-input:focus {
+      border-color: var(--green);
+    }
+
+    .country-select {
+      padding: 10px 14px;
+      border: 2px solid var(--green-mid);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      min-width: 200px;
+    }
+
+    .country-select:focus {
+      border-color: var(--green);
+    }
+
+    .search-btn {
+      padding: 10px 28px;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .search-btn:hover { background: var(--green-dark); }
+    .search-btn:active { transform: scale(0.98); }
+    .search-btn:disabled { background: var(--gray); cursor: not-allowed; }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    /* WELCOME */
+    .welcome {
+      text-align: center;
+      padding: 70px 20px;
+    }
+
+    .welcome-icon {
+      font-size: 72px;
+      margin-bottom: 20px;
+      opacity: 0.85;
+    }
+
+    .welcome h2 {
+      font-size: 26px;
+      color: var(--green-dark);
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      font-size: 15px;
+      color: var(--text-soft);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* LOADER */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--green-mid);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 18px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loader p {
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .loader-sources {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* DATE HEADER */
+    .date-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--green-mid);
+    }
+
+    .date-badge {
+      background: var(--green);
+      color: var(--white);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .date-label {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .date-stats {
+      margin-left: auto;
+      display: flex;
+      gap: 16px;
+    }
+
+    .stat-pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .stat-pill.adopted {
+      background: var(--adopted-bg);
+      color: var(--green-dark);
+    }
+
+    .stat-pill.discuss {
+      background: var(--discuss-bg);
+      color: #8B6000;
+    }
+
+    /* SECTIONS */
+    .sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 750px) {
+      .sections { grid-template-columns: 1fr; }
+      .date-stats { display: none; }
+    }
+
+    .section-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header.adopted {
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      color: var(--white);
+    }
+
+    .section-header.discuss {
+      background: linear-gradient(135deg, #C07800, #F0A500);
+      color: var(--white);
+    }
+
+    .section-icon { font-size: 22px; }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    .section-count {
+      background: rgba(255,255,255,0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ITEMS */
+    .items-list {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item {
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 4px solid transparent;
+      transition: box-shadow 0.2s;
+    }
+
+    .item:hover { box-shadow: var(--shadow); }
+
+    .item.adopted {
+      background: var(--adopted-bg);
+      border-left-color: var(--green);
+    }
+
+    .item.discuss {
+      background: var(--discuss-bg);
+      border-left-color: var(--discuss-border);
+    }
+
+    .item-source {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .item.adopted .item-source { color: var(--green-dark); }
+    .item.discuss .item-source { color: #8B6000; }
+
+    .source-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .item.adopted .source-dot { background: var(--green); }
+    .item.discuss .source-dot { background: var(--discuss-border); }
+
+    .item-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .item-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .item-title a:hover { text-decoration: underline; color: var(--green-dark); }
+
+    .item-meta {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .item-desc {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* EMPTY */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray);
+    }
+
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .empty p { font-size: 14px; }
+
+    /* ERROR */
+    .error-box {
+      background: #FFF0F0;
+      border: 1px solid #FFB3B3;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .error-box .err-icon { font-size: 20px; flex-shrink: 0; }
+    .error-box p { font-size: 14px; color: #8B0000; line-height: 1.5; }
+
+    /* SOURCES FOOTER */
+    .sources-info {
+      margin-top: 28px;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .sources-info h4 {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sources-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .source-tag {
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--green-deep);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 18px;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+
+    footer strong { color: var(--white); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">⚖️</div>
+      <div class="logo-text">
+        <strong>Законодательный дайджест</strong>
+        <span>Мониторинг нормативно-правовых актов</span>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-title">Данные из открытых официальных источников</div>
+  </div>
+</header>
+
+<div class="search-section">
+  <div class="search-inner">
+    <div class="search-group">
+      <label>Страна / Источники</label>
+      <select class="country-select" id="countrySelect">
+        <option value="kz">🇰🇿 Казахстан</option>
+        <option value="ru">🇷🇺 Россия</option>
+        <option value="all">🌐 Все источники</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <label>Дата</label>
+      <input type="date" class="date-input" id="dateInput">
+    </div>
+    <button class="search-btn" id="searchBtn" onclick="search()">Найти изменения</button>
+  </div>
+</div>
+
+<main>
+  <div class="welcome" id="welcome">
+    <div class="welcome-icon">📋</div>
+    <h2>Выберите дату для анализа</h2>
+    <p>Приложение покажет все законодательные изменения — что было принято и что обсуждалось. Данные из официальных источников.</p>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    <p>Загружаем данные из официальных источников...</p>
+    <div class="loader-sources" id="loaderSources"></div>
+  </div>
+
+  <div id="results" style="display:none">
+    <div class="date-header">
+      <div class="date-badge" id="displayDate"></div>
+      <div class="date-label">Законодательные изменения</div>
+      <div class="date-stats">
+        <div class="stat-pill adopted" id="adoptedCount"></div>
+        <div class="stat-pill discuss" id="discussCount"></div>
+      </div>
+    </div>
+
+    <div id="errorBox" style="display:none" class="error-box">
+      <div class="err-icon">⚠️</div>
+      <p id="errorText"></p>
+    </div>
+
+    <div class="sections">
+      <div class="section-card">
+        <div class="section-header adopted">
+          <div class="section-icon">✅</div>
+          <div class="section-title">Принято / Подписано</div>
+          <div class="section-count" id="adoptedBadge">0</div>
+        </div>
+        <div class="items-list" id="adoptedList"></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header discuss">
+          <div class="section-icon">💬</div>
+          <div class="section-title">На рассмотрении / Обсуждалось</div>
+          <div class="section-count" id="discussBadge">0</div>
+        </div>
+        <div class="items-list" id="discussList"></div>
+      </div>
+    </div>
+
+    <div class="sources-info" id="sourcesInfo" style="display:none">
+      <h4>Источники данных</h4>
+      <div class="sources-grid" id="sourcesGrid"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Данные получены из открытых официальных источников. <strong>Законодательный дайджест</strong> — информационный сервис.
+</footer>
+
+<script>
+// RSS sources config
+const SOURCES = {
+  kz: [
+    {
+      name: 'Адилет — Казахстан',
+      short: 'Адилет.KZ',
+      url: 'https://adilet.zan.kz/rus/rss',
+      type: 'both'
+    },
+    {
+      name: 'Парламент Казахстана',
+      short: 'Парламент.KZ',
+      url: 'https://www.parlam.kz/ru/rss',
+      type: 'discuss'
+    },
+    {
+      name: 'Правительство Казахстана',
+      short: 'Primeminister.KZ',
+      url: 'https://primeminister.kz/ru/rss/news',
+      type: 'adopted'
+    },
+    {
+      name: 'Акорда — Президент РК',
+      short: 'Akorda.KZ',
+      url: 'https://www.akorda.kz/ru/rss',
+      type: 'adopted'
+    }
+  ],
+  ru: [
+    {
+      name: 'Официальный интернет-портал правовой информации',
+      short: 'Pravo.gov.ru',
+      url: 'http://pravo.gov.ru/rss/pravo/',
+      type: 'adopted'
+    },
+    {
+      name: 'Государственная Дума РФ',
+      short: 'Duma.gov.ru',
+      url: 'http://www.duma.gov.ru/news/rss/',
+      type: 'discuss'
+    },
+    {
+      name: 'Совет Федерации РФ',
+      short: 'Council.gov.ru',
+      url: 'http://council.gov.ru/rss/news/',
+      type: 'discuss'
+    },
+    {
+      name: 'Правительство России',
+      short: 'Government.ru',
+      url: 'http://government.ru/rss/',
+      type: 'both'
+    }
+  ]
+};
+
+// CORS proxy list (try in order)
+const PROXIES = [
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+];
+
+// Keywords for classification
+const ADOPTED_KW = [
+  'подписан', 'принят', 'вступил в силу', 'утвержден', 'утверждён',
+  'постановление', 'опубликован', 'подписал', 'закон подписан',
+  'указ', 'приказ', 'ратифицирован', 'одобрен', 'enactment',
+  'зарегистрирован', 'введен в действие', 'введён в действие',
+  'официальный', 'промульгирован', 'ратификация',
+  'қабылданды', 'бекітілді', 'жарияланды' // Kazakh
+];
+
+const DISCUSS_KW = [
+  'рассмотрение', 'рассматривается', 'обсуждение', 'обсуждается',
+  'первое чтение', 'второе чтение', 'третье чтение',
+  'законопроект', 'проект закона', 'проект постановления',
+  'слушание', 'слушания', 'комитет', 'поправки', 'поправка',
+  'внесен на', 'внесён на', 'рекомендовал', 'предложил', 'предложен',
+  'планируется', 'инициатив', 'разработан', 'разрабатывается',
+  'парламент рассмотрит', 'думе предложили', 'депутаты',
+  'талқыланды', 'қарастырылды' // Kazakh
+];
+
+function classifyItem(text, sourceType) {
+  const low = text.toLowerCase();
+  let adoptedScore = 0;
+  let discussScore = 0;
+
+  for (const kw of ADOPTED_KW) if (low.includes(kw)) adoptedScore++;
+  for (const kw of DISCUSS_KW) if (low.includes(kw)) discussScore++;
+
+  if (sourceType === 'adopted') adoptedScore += 2;
+  if (sourceType === 'discuss') discussScore += 2;
+
+  if (adoptedScore > discussScore) return 'adopted';
+  if (discussScore > adoptedScore) return 'discuss';
+  // Default based on source type
+  if (sourceType === 'adopted') return 'adopted';
+  if (sourceType === 'discuss') return 'discuss';
+  return 'adopted';
+}
+
+function parseDate(str) {
+  if (!str) return null;
+  try {
+    const d = new Date(str);
+    if (!isNaN(d)) return d;
+  } catch(e) {}
+  return null;
+}
+
+function sameDay(d1, d2) {
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+}
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function truncate(str, n) {
+  if (!str || str.length <= n) return str;
+  return str.slice(0, n).trimEnd() + '…';
+}
+
+async function fetchRSS(source, proxyIdx, targetDate) {
+  const proxyUrl = PROXIES[proxyIdx](source.url);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+
+  try {
+    const resp = await fetch(proxyUrl, { signal: controller.signal });
+    clearTimeout(timeout);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+    let text;
+    const ct = resp.headers.get('content-type') || '';
+    if (ct.includes('json') || proxyIdx === 0) {
+      // allorigins wraps in JSON
+      try {
+        const json = await resp.json();
+        text = json.contents || json.body || json;
+        if (typeof text !== 'string') text = JSON.stringify(text);
+      } catch {
+        text = await resp.text();
+      }
+    } else {
+      text = await resp.text();
+    }
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'application/xml');
+    const parserErr = xml.querySelector('parsererror');
+    if (parserErr) throw new Error('XML parse error');
+
+    const items = Array.from(xml.querySelectorAll('item, entry'));
+    const results = [];
+
+    for (const item of items) {
+      const title = stripHtml(
+        item.querySelector('title')?.textContent || ''
+      );
+      const link =
+        item.querySelector('link')?.textContent?.trim() ||
+        item.querySelector('link')?.getAttribute('href') || '';
+      const desc = stripHtml(
+        item.querySelector('description, summary, content')?.textContent || ''
+      );
+      const pubDateStr =
+        item.querySelector('pubDate, published, updated, dc\\:date')?.textContent || '';
+      const pubDate = parseDate(pubDateStr);
+
+      if (!title) continue;
+      if (pubDate && !sameDay(pubDate, targetDate)) continue;
+      // If no date in item, include it (might still be relevant)
+
+      const fullText = title + ' ' + desc;
+      const type = classifyItem(fullText, source.type);
+
+      results.push({
+        title,
+        link,
+        desc: truncate(desc, 200),
+        pubDate,
+        source: source.short,
+        sourceFull: source.name,
+        type
+      });
+    }
+
+    return results;
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
+}
+
+async function fetchWithFallback(source, targetDate) {
+  for (let i = 0; i < PROXIES.length; i++) {
+    try {
+      return await fetchRSS(source, i, targetDate);
+    } catch (e) {
+      if (i === PROXIES.length - 1) throw e;
+    }
+  }
+  return [];
+}
+
+function formatDateRu(dateStr) {
+  const months = [
+    'января','февраля','марта','апреля','мая','июня',
+    'июля','августа','сентября','октября','ноября','декабря'
+  ];
+  const [y, m, d] = dateStr.split('-');
+  return `${parseInt(d)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function renderItem(item, type) {
+  const timeStr = item.pubDate
+    ? item.pubDate.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' })
+    : '';
+
+  return `
+    <div class="item ${type}">
+      <div class="item-source">
+        <div class="source-dot"></div>
+        ${item.source}${timeStr ? ' · ' + timeStr : ''}
+      </div>
+      <div class="item-title">
+        ${item.link
+          ? `<a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>`
+          : item.title
+        }
+      </div>
+      ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+    </div>
+  `;
+}
+
+function renderEmpty(type) {
+  const msgs = {
+    adopted: 'Принятых актов за эту дату не найдено',
+    discuss: 'Данных об обсуждениях за эту дату не найдено'
+  };
+  return `<div class="empty"><div class="empty-icon">📭</div><p>${msgs[type]}</p></div>`;
+}
+
+async function search() {
+  const dateVal = document.getElementById('dateInput').value;
+  const country = document.getElementById('countrySelect').value;
+
+  if (!dateVal) {
+    alert('Пожалуйста, выберите дату');
+    return;
+  }
+
+  const targetDate = new Date(dateVal + 'T12:00:00');
+  const sources = country === 'all'
+    ? [...SOURCES.kz, ...SOURCES.ru]
+    : (SOURCES[country] || SOURCES.kz);
+
+  // UI: show loader
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('loader').style.display = 'block';
+  document.getElementById('searchBtn').disabled = true;
+
+  const srcNames = sources.map(s => s.short).join(' · ');
+  document.getElementById('loaderSources').textContent = 'Источники: ' + srcNames;
+
+  // Fetch all sources in parallel
+  const allItems = [];
+  const usedSources = new Set();
+  let anyError = false;
+  const errors = [];
+
+  await Promise.allSettled(
+    sources.map(async (src) => {
+      try {
+        const items = await fetchWithFallback(src, targetDate);
+        allItems.push(...items);
+        if (items.length > 0) usedSources.add(src.short);
+      } catch (e) {
+        anyError = true;
+        errors.push(src.short);
+      }
+    })
+  );
+
+  // Split into categories
+  const adopted = allItems.filter(i => i.type === 'adopted');
+  const discuss = allItems.filter(i => i.type === 'discuss');
+
+  // Render
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('searchBtn').disabled = false;
+
+  document.getElementById('displayDate').textContent = formatDateRu(dateVal);
+  document.getElementById('adoptedCount').textContent = `✅ Принято: ${adopted.length}`;
+  document.getElementById('discussCount').textContent = `💬 Обсуждалось: ${discuss.length}`;
+  document.getElementById('adoptedBadge').textContent = adopted.length;
+  document.getElementById('discussBadge').textContent = discuss.length;
+
+  // Error box
+  const errBox = document.getElementById('errorBox');
+  if (anyError) {
+    errBox.style.display = 'flex';
+    document.getElementById('errorText').textContent =
+      `Не удалось получить данные из: ${errors.join(', ')}. ` +
+      `Возможно, источники временно недоступны или не содержат данных за эту дату. ` +
+      `Показаны данные из доступных источников.`;
+  } else {
+    errBox.style.display = 'none';
+  }
+
+  // Adopted list
+  const adoptedEl = document.getElementById('adoptedList');
+  adoptedEl.innerHTML = adopted.length
+    ? adopted.map(i => renderItem(i, 'adopted')).join('')
+    : renderEmpty('adopted');
+
+  // Discuss list
+  const discussEl = document.getElementById('discussList');
+  discussEl.innerHTML = discuss.length
+    ? discuss.map(i => renderItem(i, 'discuss')).join('')
+    : renderEmpty('discuss');
+
+  // Sources footer
+  const allUsed = [...new Set(allItems.map(i => i.source))];
+  const srcInfo = document.getElementById('sourcesInfo');
+  const srcGrid = document.getElementById('sourcesGrid');
+  if (allUsed.length) {
+    srcGrid.innerHTML = allUsed.map(s => `<div class="source-tag">${s}</div>`).join('');
+    srcInfo.style.display = 'block';
+  } else {
+    srcInfo.style.display = 'none';
+  }
+}
+
+// Set default date to today
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const dd = String(today.getDate()).padStart(2, '0');
+document.getElementById('dateInput').value = `${yyyy}-${mm}-${dd}`;
+
+// Enter key support
+document.getElementById('dateInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') search();
+});
+</script>
+</body>
+</html>
