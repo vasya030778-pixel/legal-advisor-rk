@@ -599,8 +599,69 @@
   </div>
 </main>
 
+<!-- О приложении -->
+<div id="aboutOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:18px;max-width:520px;width:90%;padding:36px 32px;box-shadow:0 16px 60px rgba(0,92,46,0.25);position:relative;">
+    <button onclick="document.getElementById('aboutOverlay').style.display='none'"
+      style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;">✕</button>
+
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="font-size:40px;">⚖️</div>
+      <div>
+        <div style="font-size:20px;font-weight:700;color:#005C2E;">Законодательный дайджест</div>
+        <div style="font-size:13px;color:#4A6455;">Мониторинг нормативно-правовых актов</div>
+      </div>
+    </div>
+
+    <p style="font-size:14px;line-height:1.7;color:#1A2E22;margin-bottom:18px;">
+      Приложение позволяет быстро получить информацию о законодательных изменениях за любой период.
+      Просто выберите страну и диапазон дат — система автоматически соберёт данные из официальных
+      и открытых источников и разделит их на два раздела:
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px;">
+      <div style="background:#E8F7EF;border-left:4px solid #00A651;padding:10px 14px;border-radius:8px;">
+        <div style="font-weight:700;color:#007A3D;font-size:13px;">✅ Принято / Подписано</div>
+        <div style="font-size:12px;color:#4A6455;margin-top:3px;">Законы, указы, постановления, вступившие в силу</div>
+      </div>
+      <div style="background:#FFF9E6;border-left:4px solid #F0A500;padding:10px 14px;border-radius:8px;">
+        <div style="font-weight:700;color:#8B6000;font-size:13px;">💬 На рассмотрении / Обсуждалось</div>
+        <div style="font-size:12px;color:#4A6455;margin-top:3px;">Законопроекты, парламентские чтения, обсуждения</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;">
+      <div style="background:#E6F6EE;color:#005C2E;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;">🇰🇿 Казахстан</div>
+      <div style="background:#E6F6EE;color:#005C2E;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;">🇷🇺 Россия</div>
+      <div style="background:#E6F6EE;color:#005C2E;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;">🔓 Без регистрации</div>
+      <div style="background:#E6F6EE;color:#005C2E;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;">🔑 Без API-ключей</div>
+    </div>
+
+    <div style="border-top:1px solid #C0E8D0;padding-top:20px;display:flex;align-items:center;gap:24px;">
+      <div>
+        <img id="qrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=005C2E&bgcolor=FFFFFF&data=https%3A%2F%2Fvasya030778-pixel.github.io%2Flegal-advisor-rk%2Fdigest.html"
+          alt="QR-код" width="120" height="120"
+          style="border-radius:10px;border:3px solid #00A651;display:block;">
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#005C2E;margin-bottom:6px;">Поделиться приложением</div>
+        <div style="font-size:11px;color:#4A6455;line-height:1.6;word-break:break-all;">
+          vasya030778-pixel.github.io/<br>legal-advisor-rk/digest.html
+        </div>
+        <button onclick="navigator.clipboard.writeText('https://vasya030778-pixel.github.io/legal-advisor-rk/digest.html').then(()=>alert('Ссылка скопирована!'))"
+          style="margin-top:10px;padding:6px 14px;background:#00A651;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">
+          Скопировать ссылку
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer>
-  Данные получены из официальных и открытых источников. Неофициальные источники отмечены пометкой. <strong>Законодательный дайджест</strong> — информационный сервис.
+  Данные получены из официальных и открытых источников. Неофициальные источники отмечены пометкой.
+  <strong>Законодательный дайджест</strong> — информационный сервис.
+  <span style="margin-left:12px;opacity:0.7;cursor:pointer;text-decoration:underline;"
+    onclick="document.getElementById('aboutOverlay').style.display='flex'">О приложении / QR-код</span>
 </footer>
 
 <script>
