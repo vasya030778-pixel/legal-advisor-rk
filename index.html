@@ -621,31 +621,26 @@ async function submitQuery() {
     `Ситуация:\n${sit}\n\nВопрос:\n${q}`;
 
   try {
-    // Pollinations.ai — бесплатный API, без ключей
-    const res = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'openai-large',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user',   content: userMessage }
-        ],
-        max_tokens: 2000,
-        seed: Math.floor(Math.random() * 9999)
-      })
-    });
+    // Pollinations.ai GET API — бесплатно, без ключей, без CORS-проблем
+    const seed = Math.floor(Math.random() * 99999);
+    const url = `https://text.pollinations.ai/${encodeURIComponent(userMessage)}`
+      + `?model=openai-large`
+      + `&system=${encodeURIComponent(SYSTEM_PROMPT)}`
+      + `&seed=${seed}`;
+
+    const res = await fetch(url);
 
     if (!res.ok) {
-      const err = await res.text();
-      showError(`Сервис временно недоступен. Попробуйте ещё раз.<br><small>${err.slice(0,200)}</small>`);
+      showError(`Сервис временно недоступен (${res.status}). Попробуйте ещё раз через минуту.`);
       return;
     }
 
-    const data = await res.json();
-    const text = data.choices?.[0]?.message?.content || '';
+    const text = await res.text();
 
-    if (!text) { showError('Пустой ответ от сервиса. Попробуйте ещё раз.'); return; }
+    if (!text || text.trim().length < 50) {
+      showError('Пустой ответ от сервиса. Попробуйте ещё раз.');
+      return;
+    }
 
     renderAnswer(text, branch);
 
