@@ -604,101 +604,83 @@
 </footer>
 
 <script>
-// RSS sources config
+// Google News RSS — работает без ключей, стабильно через CORS-прокси
+const GN = (q, hl, gl, ceid) =>
+  `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=${hl}&gl=${gl}&ceid=${ceid}`;
+
 const SOURCES = {
   kz: [
     {
-      name: 'Адилет — Казахстан',
-      short: 'Адилет (КЗ)',
-      url: 'https://adilet.zan.kz/rus/rss',
-      type: 'both',
-      official: true
+      name: 'Google Новости — законы Казахстана (принятые)',
+      short: 'Google Новости (КЗ)',
+      url: GN('закон принят указ постановление Казахстан', 'ru', 'KZ', 'KZ:ru'),
+      type: 'adopted',
+      official: false
     },
     {
-      name: 'Парламент Казахстана',
-      short: 'Парламент (КЗ)',
-      url: 'https://www.parlam.kz/ru/rss',
+      name: 'Google Новости — законопроекты Казахстана',
+      short: 'Google Новости (КЗ)',
+      url: GN('законопроект парламент Казахстан рассмотрение Мажилис', 'ru', 'KZ', 'KZ:ru'),
       type: 'discuss',
-      official: true
+      official: false
     },
     {
-      name: 'Правительство Казахстана',
-      short: 'Правительство (КЗ)',
-      url: 'https://primeminister.kz/ru/rss/news',
-      type: 'adopted',
-      official: true
-    },
-    {
-      name: 'Акорда — Президент РК',
-      short: 'Акорда (КЗ)',
-      url: 'https://www.akorda.kz/ru/rss',
-      type: 'adopted',
-      official: true
-    },
-    {
-      name: 'Zakon.kz — правовые новости Казахстана',
+      name: 'Zakon.kz — правовые новости',
       short: 'Zakon.kz',
       url: 'https://www.zakon.kz/rss/',
       type: 'both',
       official: false
     },
     {
-      name: 'Юридическая газета Казахстана',
-      short: 'Юрgазета (КЗ)',
-      url: 'https://www.yurist-online.kz/rss/',
-      type: 'both',
-      official: false
+      name: 'Акорда — Президент РК',
+      short: 'Акорда (офиц.)',
+      url: 'https://www.akorda.kz/ru/rss',
+      type: 'adopted',
+      official: true
+    },
+    {
+      name: 'Адилет — база НПА Казахстана',
+      short: 'Адилет (офиц.)',
+      url: 'https://adilet.zan.kz/rus/rss',
+      type: 'adopted',
+      official: true
     }
   ],
   ru: [
     {
-      name: 'Официальный интернет-портал правовой информации',
-      short: 'Право (РФ)',
+      name: 'Google Новости — законы России (принятые)',
+      short: 'Google Новости (РФ)',
+      url: GN('закон принят подписан Путин Госдума Россия', 'ru', 'RU', 'RU:ru'),
+      type: 'adopted',
+      official: false
+    },
+    {
+      name: 'Google Новости — законопроекты России',
+      short: 'Google Новости (РФ)',
+      url: GN('законопроект Госдума первое чтение рассмотрение Россия', 'ru', 'RU', 'RU:ru'),
+      type: 'discuss',
+      official: false
+    },
+    {
+      name: 'Консультант Плюс — горячие документы',
+      short: 'КонсультантПлюс',
+      url: 'https://www.consultant.ru/rss/hotdocs.xml',
+      type: 'adopted',
+      official: false
+    },
+    {
+      name: 'Официальный портал правовой информации',
+      short: 'Pravo.gov.ru (офиц.)',
       url: 'http://pravo.gov.ru/rss/pravo/',
       type: 'adopted',
       official: true
     },
     {
       name: 'Государственная Дума РФ',
-      short: 'Госдума (РФ)',
+      short: 'Госдума (офиц.)',
       url: 'http://www.duma.gov.ru/news/rss/',
       type: 'discuss',
       official: true
-    },
-    {
-      name: 'Совет Федерации РФ',
-      short: 'Совет Федерации (РФ)',
-      url: 'http://council.gov.ru/rss/news/',
-      type: 'discuss',
-      official: true
-    },
-    {
-      name: 'Правительство России',
-      short: 'Правительство (РФ)',
-      url: 'http://government.ru/rss/',
-      type: 'both',
-      official: true
-    },
-    {
-      name: 'Консультант Плюс — новости законодательства',
-      short: 'КонсультантПлюс',
-      url: 'http://www.consultant.ru/rss/hotdocs.xml',
-      type: 'adopted',
-      official: false
-    },
-    {
-      name: 'Гарант — новости законодательства',
-      short: 'Гарант',
-      url: 'https://www.garant.ru/rss/legislation/',
-      type: 'both',
-      official: false
-    },
-    {
-      name: 'РАПСИ — Российское агентство правовой информации',
-      short: 'РАПСИ',
-      url: 'http://rapsinews.ru/rss/',
-      type: 'both',
-      official: false
     }
   ]
 };
