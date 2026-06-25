@@ -760,8 +760,10 @@ function parseDate(str) {
 }
 
 function inRange(d, from, to) {
-  const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  return day >= from && day <= to;
+  const day = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const f   = new Date(from.getFullYear(), from.getMonth(), from.getDate()).getTime();
+  const t   = new Date(to.getFullYear(),   to.getMonth(),   to.getDate()).getTime();
+  return day >= f && day <= t;
 }
 
 function stripHtml(html) {
